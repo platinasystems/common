@@ -23,6 +23,7 @@ type Common struct {
 type Device struct {
 	Common
 
+	UUID               string               `json:"uuid"`
 	HardwareType       string               `json:"hardware_type,omitempty"`
 	Chassis            string               `json:"chassis,omitempty"`
 	BIOS               *BIOS                `json:"bios,omitempty"`
