@@ -191,15 +191,16 @@ type NICPort struct {
 type StorageController struct {
 	Common
 
-	ID                           string `json:"id,omitempty"`
-	SupportedControllerProtocols string `json:"supported_controller_protocol,omitempty"` // PCIe
-	SupportedDeviceProtocols     string `json:"supported_device_protocol,omitempty"`     // Attached device protocols - SAS, SATA
-	SupportedRAIDTypes           string `json:"supported_raid_types,omitempty"`
-	PhysicalID                   string `json:"physid,omitempty"`
-	BusInfo                      string `json:"bus_info,omitempty"`
-	SpeedGbps                    int64  `json:"speed_gbps,omitempty"`
-	MaxPhysicalDisks             int    `json:"max_physical_disks,omitempty"`
-	MaxVirtualDisks              int    `json:"max_virtual_disks,omitempty"`
+	ID                           string         `json:"id,omitempty"`
+	SupportedControllerProtocols string         `json:"supported_controller_protocol,omitempty"` // PCIe
+	SupportedDeviceProtocols     string         `json:"supported_device_protocol,omitempty"`     // Attached device protocols - SAS, SATA
+	SupportedRAIDTypes           string         `json:"supported_raid_types,omitempty"`
+	PhysicalID                   string         `json:"physid,omitempty"`
+	BusInfo                      string         `json:"bus_info,omitempty"`
+	SpeedGbps                    int64          `json:"speed_gbps,omitempty"`
+	MaxPhysicalDisks             int            `json:"max_physical_disks,omitempty"`
+	MaxVirtualDisks              int            `json:"max_virtual_disks,omitempty"`
+	Volumes                      []*VirtualDisk `json:"volumes,omitempty"`
 }
 
 // Mainboard component
