@@ -176,15 +176,31 @@ type NIC struct {
 type NICPort struct {
 	Common
 
-	ID                   string `json:"id"`
-	SpeedBits            int64  `json:"speed_bits,omitempty"`
-	PhysicalID           string `json:"physid,omitempty"`
-	BusInfo              string `json:"bus_info,omitempty"`
-	ActiveLinkTechnology string `json:"active_link_technology,omitempty"`
-	MacAddress           string `json:"macaddress,omitempty"`
-	LinkStatus           string `json:"link_status,omitempty"`
-	AutoNeg              bool   `json:"auto_neg,omitempty"`
-	MTUSize              int    `json:"mtu_size,omitempty"`
+	ID                   string      `json:"id"`
+	SpeedBits            int64       `json:"speed_bits,omitempty"`
+	PhysicalID           string      `json:"physid,omitempty"`
+	BusInfo              string      `json:"bus_info,omitempty"`
+	ActiveLinkTechnology string      `json:"active_link_technology,omitempty"`
+	MacAddress           string      `json:"macaddress,omitempty"`
+	LinkStatus           string      `json:"link_status,omitempty"`
+	AutoNeg              bool        `json:"auto_neg,omitempty"`
+	MTUSize              int         `json:"mtu_size,omitempty"`
+	IPv4Addresses        []IPAddress `json:"ipv4_addresses,omitempty"`
+	IPv6Addresses        []IPAddress `json:"ipv6_addresses,omitempty"`
+}
+
+// IPAddress describes an IPv4 address assigned to an interface.
+type IPAddress struct {
+	// Address shall be an IPv4 address assigned to this interface. If DHCPv4
+	// is enabled on the interface, this property becomes read-only.
+	Address string
+	// Gateway shall be the IPv4 default gateway address for this interface. If
+	// DHCPv4 is enabled on the interface and is configured to set the IPv4
+	// default gateway address, this property becomes read-only.
+	Gateway string
+	// SubnetMask shall be the IPv4 subnet mask for this address. If DHCPv4 is
+	// enabled on the interface, this property becomes read-only.
+	SubnetMask string
 }
 
 // StorageController component
