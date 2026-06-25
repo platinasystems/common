@@ -8,6 +8,7 @@ const (
 	VendorAsrockrack            = "asrockrack"
 	VendorSupermicro            = "supermicro"
 	VendorHPE                   = "hp"
+	VendorLenovo                = "lenovo"
 	VendorQuanta                = "quanta"
 	VendorGigabyte              = "gigabyte"
 	VendorIntel                 = "intel"
@@ -27,6 +28,8 @@ const (
 
 	// Generic component slugs
 	// Slugs are set on Device types to identify the type of component
+	//
+	// note: Enlist any new component types in the method further below.
 	SlugBackplaneExpander     = "Backplane-Expander"
 	SlugChassis               = "Chassis"
 	SlugTPM                   = "TPM"
@@ -44,6 +47,8 @@ const (
 	SlugDriveTypeSATAHDD      = "Sata-HDD"
 	SlugNIC                   = "NIC"
 	SlugNICs                  = "NICs"
+	SlugNICPort               = "NICPort"
+	SlugNICPorts              = "NICPorts"
 	SlugPSU                   = "Power-Supply"
 	SlugPSUs                  = "Power-Supplies"
 	SlugCPLD                  = "CPLD"
@@ -63,6 +68,35 @@ const (
 	SlugRAIDImplZFS           = "zfs"
 	SlugRAIDImplHardware      = "hardware"
 )
+
+func ComponentTypes() []string {
+	return []string{
+		SlugBackplaneExpander,
+		SlugChassis,
+		SlugTPM,
+		SlugGPU,
+		SlugCPU,
+		SlugPhysicalMem,
+		SlugStorageController,
+		SlugStorageControllers,
+		SlugBMC,
+		SlugBIOS,
+		SlugDrive,
+		SlugDrives,
+		SlugDriveTypePCIeNVMEeSSD,
+		SlugDriveTypeSATASSD,
+		SlugDriveTypeSATAHDD,
+		SlugNIC,
+		SlugNICs,
+		SlugNICPort,
+		SlugNICPorts,
+		SlugPSU,
+		SlugPSUs,
+		SlugCPLD,
+		SlugEnclosure,
+		SlugMainboard,
+	}
+}
 
 // FormatVendorName compares the given strings to identify and returned a known
 // vendor name. When a match is not found, the string is returned as is.
@@ -86,12 +120,16 @@ func FormatVendorName(name string) string {
 	}
 
 	switch {
+	case strings.Contains(v, VendorAMD):
+		return VendorAMD
 	case strings.Contains(v, VendorAsrockrack):
 		return VendorAsrockrack
 	case strings.Contains(v, VendorDell):
 		return VendorDell
 	case strings.Contains(v, VendorSupermicro):
 		return VendorSupermicro
+	case strings.Contains(v, VendorLenovo):
+		return VendorLenovo
 	case strings.Contains(v, VendorQuanta):
 		return VendorQuanta
 	case strings.Contains(v, VendorGigabyte):
@@ -168,17 +206,42 @@ func FormatProductName(s string) string {
 		return "r750"
 	case "PowerEdge C6320":
 		return "c6320"
+	case "PIO-519C-MR-PH004":
+		return "x11sch-f"
 	case "SYS-5019C-MR-PH004", "SYS-5019C-MR":
 		return "x11scm-f"
 	case "SYS-5039MS-H12TRF":
 		return "x11sse-f"
-	case "SYS-510T-MR-EI018", "SYS-510T-MR1-EI018":
+	case "SYS-510T-MR-EI018", "SYS-510T-MR1-EI018", "SYS-510T-MR2-EI018":
 		return "x12sth-sys"
-	case "SSG-6029P-E1CR12L-PH004":
+	case "SSG-6029P-E1CR12L-PH004", "SSG-6029P-E1CR12L":
 		return "x11dph-t"
-	case "SSG-110P-NTR10", "SSG-110P-NTR10-EI018":
+	case "SSG-110P-NTR10", "SSG-110P-NTR10-EI018", "SSG-110P-NTR10-2-EI018":
 		return "x12spo-ntf"
+	case "Micron_5200_MTFDDAK480TDN":
+		return "5200MAX"
+	case "ThinkSystem SR630 V2":
+		return "sr630v2"
+	case "ThinkSystem SR650":
+		return "sr650"
+	case "SYS-221H-TN24R":
+		return "x13dem"
 	default:
 		return s
+	}
+}
+
+// Returns the Supermicro motherboard model for the given BoardID identifier
+// from /redfish/v1/Chassis/1
+func SupermicroModelFromBoardID(id string) string {
+	switch strings.ToLower(id) {
+	case "0x89a":
+		return "x11ssl-f"
+	case "0x1b09": // 15d9:1b09 is the Q370 Chipset LPC/eSPI Controller on the board
+		return "x11scz-f"
+	case "0x1c3a":
+		return "x11dgq"
+	default:
+		return ""
 	}
 }
